@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { FaChartLine, FaPlus, FaHome, FaUser, FaBoxOpen, FaSignOutAlt, FaClipboardList } from "react-icons/fa";
 import { deleteCookie } from "cookies-next";
-import { getDashboard, getProduits } from "/src/api";
+import { getDashboard, getProduits, getDashboardTotal } from "/src/api";
 
 const Page = () => {
   const { data: dashboard, isLoading: dashboardLoading } = useQuery({
@@ -12,6 +12,12 @@ const Page = () => {
     queryFn: getDashboard,
   });
 
+  const { data: dashboardtotal, isLoading: dashboardTotalLoading } = useQuery({
+    queryKey: ["dashboardTotal"],
+    queryFn: getDashboardTotal,
+  });
+
+  console.log("dashboardtotal ", dashboardtotal);
   const { data: produits, isLoading: produitsLoading } = useQuery({
     queryKey: ["produits"],
     queryFn: getProduits,
@@ -112,7 +118,26 @@ const Page = () => {
       {/* Main Content */}
       <div className="flex-1 p-8 bg-nude-100 overflow-y-auto">
         <h2 className="text-2xl font-semibold mb-6">Tableau de Bord</h2>
-
+        <div className="mb-8 flex items-center space-x-6">
+          
+          <div className="flex items-center">
+            
+            <div className="w-6 h-6 bg-red-100 rounded-full"></div>
+            <span className="ml-2">0%</span>
+          </div>
+          <div className="flex items-center">
+            <div className="w-6 h-6 bg-yellow-100 rounded-full"></div>
+            <span className="ml-2">0% - 50%</span>
+          </div>
+          <div className="flex items-center">
+            <div className="w-6 h-6 bg-blue-100 rounded-full"></div>
+            <span className="ml-2">50% - 100%</span>
+          </div>
+          <div className="flex items-center">
+            <div className="w-6 h-6 bg-green-100 rounded-full"></div>
+            <span className="ml-2">100%</span>
+          </div>
+        </div>
         {/* Champ de recherche */}
         <div className="mb-4">
           <input
@@ -170,6 +195,32 @@ const Page = () => {
                 ))}
               </tbody>
             </table>
+
+            <div className="mt-16">
+              <h3 className="text-xl font-semibold mb-8">Quantités Actuelles, Attribuées et Pourcentages des Produits</h3>
+              <table className="min-w-full table-auto border-collapse border border-gray-200">
+                <thead>
+                  <tr className="bg-gray-100">
+                    <th className="border border-gray-200 px-4 py-2 text-left">Produit</th>
+                    <th className="border border-gray-200 px-4 py-2 text-center">Quantité Reçue</th>
+                    <th className="border border-gray-200 px-4 py-2 text-center">Quantité Attribuée </th>
+                    <th className="border border-gray-200 px-4 py-2 text-center">Pourcentage</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {dashboardtotal?.map((product) => (
+                    <tr key={product.nomProduit} className="odd:bg-white even:bg-gray-50">
+                      <td className="border border-gray-200 px-4 py-2">{product.nomProduit}</td>
+                      <td className="border border-gray-200 px-4 py-2 text-center">{product.quantiteActuelle}</td>
+                      <td className="border border-gray-200 px-4 py-2 text-center">{product.quantiteMax}</td>
+                      <td className="border border-gray-200 px-4 py-2 text-center">
+                        {product.pourcentage ? `${(product.pourcentage ).toFixed(3)}%` : "0%"}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </div>

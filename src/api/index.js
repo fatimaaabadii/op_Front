@@ -88,6 +88,28 @@ export async function getOperations() {
 
 
 
+
+
+export async function getDashboardTotal() {
+    try {
+      const token = getCookie("token");
+      
+      const response = await api.get('/operations/totalproduits' ,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+     console.log(response.data);
+      return response.data;
+      
+    } catch (error) {
+      console.log(error);
+    }
+
+}
+
+
+
 export async function getDashboard() {
     try {
       const token = getCookie("token");

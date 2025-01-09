@@ -138,7 +138,7 @@ const Page = () => {
 
             <div className="mt-12">
              
-              {/*<p className="text-gray-600">Découvrez les moments marquants de notre action à travers ces images.</p>*/}
+              {/*<p className="text-gray-600">Découvrez les moments marquants de notre action à travers ces images.</p>
               <div className="mt-4">
     <video
       src="/vedeo.mp4"
@@ -147,7 +147,23 @@ const Page = () => {
     >
       Votre navigateur ne prend pas en charge la balise vidéo. Veuillez utiliser un navigateur moderne.
     </video>
-  </div>
+  </div>*/}
+
+
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 mt-4">
+  <img src="/FB_IMG_1.jpg" alt="Photo 1" className="rounded-lg shadow-md w-40 h-40 object-cover" />
+  <img src="/FB_IMG_2.jpg" alt="Photo 2" className="rounded-lg shadow-md w-40 h-40 object-cover" />
+  
+  <img src="/FB_IMG_4.jpg" alt="Photo 4" className="rounded-lg shadow-md w-40 h-40 object-cover" />
+  <img src="/FB_IMG_5.jpg" alt="Photo 5" className="rounded-lg shadow-md w-40 h-40 object-cover" />
+  <img src="/FB_IMG_6.jpg" alt="Photo 6" className="rounded-lg shadow-md w-40 h-40 object-cover" />
+  <img src="/FB_IMG_7.jpg" alt="Photo 7" className="rounded-lg shadow-md w-40 h-40 object-cover" />
+  <img src="/FB_IMG_8.jpg" alt="Photo 8" className="rounded-lg shadow-md w-40 h-40 object-cover" />
+  <img src="/FB_IMG_9.jpg" alt="Photo 9" className="rounded-lg shadow-md w-40 h-40 object-cover" />
+</div>
+
+
+
   
 
             </div>
