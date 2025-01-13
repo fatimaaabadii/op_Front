@@ -22,7 +22,9 @@ const { data: produits } = useQuery({
     queryKey: ['user'],
     queryFn: getCurrentUser(),
   });
+ 
 
+  const role = userData?.roles || "";
   //console.log(userData);
   const { toast } = useToast()
   const token = getCookie('token'); 
@@ -149,7 +151,7 @@ const { data: produits } = useQuery({
       
     } catch (error) {
       toast({
-        description: "Erreur lors de la création d'un nouveau article",
+        description: "Erreur lors de la création d'une nouvelle opération",
         className: "bg-red-500 text-white",
         duration: 2000,
         title: "Error",
@@ -205,6 +207,8 @@ const { data: produits } = useQuery({
             <FaHome className="mr-2" />
             Accueil
           </Link>
+          {role === "USER_ROLES" && (
+        <>
           <Link href="/operation" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-md">
             <FaPlus className="mr-2" />
             Ajouter un Stock
@@ -214,13 +218,17 @@ const { data: produits } = useQuery({
             Mes Opérations
           </Link>
           <Link href="/stock_max" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-md">
-            <FaClipboardList  className="mr-2" />
+            <FaClipboardList className="mr-2" />
             Stock à atteindre
           </Link>
-          <Link href="/statistiques" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-md">
-            <FaChartLine className="mr-2" />
-            Tableau de bord
-          </Link>
+        </>
+      )}
+      {role === "ADMIN_ROLES" && (
+        <Link href="/statistiques" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-md">
+          <FaChartLine className="mr-2" />
+          Tableau de bord
+        </Link>
+      )}
           <Link href="/user" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-md">
             <FaUser className="mr-2" />
             Mon Profil

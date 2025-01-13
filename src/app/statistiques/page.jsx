@@ -4,9 +4,17 @@ import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { FaChartLine, FaPlus, FaHome, FaUser, FaBoxOpen, FaSignOutAlt, FaClipboardList } from "react-icons/fa";
 import { deleteCookie } from "cookies-next";
-import { getDashboard, getProduits, getDashboardTotal } from "/src/api";
+import { getDashboard, getProduits, getDashboardTotal, getCurrentUser } from "/src/api";
 
 const Page = () => {
+
+
+    const { data: userData } = useQuery({
+      queryKey: ['user'],
+      queryFn: getCurrentUser(),
+    });
+  
+    const role = userData?.roles || "";
   const { data: dashboard, isLoading: dashboardLoading } = useQuery({
     queryKey: ["dashboard"],
     queryFn: getDashboard,
@@ -80,22 +88,28 @@ const Page = () => {
           <FaHome className="mr-2" />
           Accueil
         </Link>
-        <Link href="/operation" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-md">
-          <FaPlus className="mr-2" />
-          Ajouter un Stock
-        </Link>
-        <Link href="/liste_stock" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-md">
-          <FaBoxOpen className="mr-2" />
-          Mes Opérations
-        </Link>
-        <Link href="/stock_max" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-md">
-          <FaClipboardList className="mr-2" />
-          Stock à atteindre
-        </Link>
+        {role === "USER_ROLES" && (
+        <>
+          <Link href="/operation" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-md">
+            <FaPlus className="mr-2" />
+            Ajouter un Stock
+          </Link>
+          <Link href="/liste_stock" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-md">
+            <FaBoxOpen className="mr-2" />
+            Mes Opérations
+          </Link>
+          <Link href="/stock_max" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-md">
+            <FaClipboardList className="mr-2" />
+            Stock à atteindre
+          </Link>
+        </>
+      )}
+      {role === "ADMIN_ROLES" && (
         <Link href="/statistiques" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-md">
           <FaChartLine className="mr-2" />
           Tableau de bord
         </Link>
+      )}
         <Link href="/user" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-md">
           <FaUser className="mr-2" />
           Mon Profil

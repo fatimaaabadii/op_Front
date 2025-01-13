@@ -6,10 +6,19 @@ import { useQuery } from "@tanstack/react-query";
 import { FaChartLine, FaPlus, FaUser, FaSignOutAlt, FaHourglassHalf , FaClipboardList, FaBoxOpen,FaTags, FaThList} from "react-icons/fa";
 import { MdCheckCircle , MdCategory} from "react-icons/md";
 import Footer from '/src/components/Footer';
-import { getOperations , getProduits} from '/src/api';
+import { getOperations , getProduits, getCurrentUser} from '/src/api';
 import { deleteCookie } from 'cookies-next';
 
 const Page = () => {
+
+
+  const { data: userData } = useQuery({
+    queryKey: ['user'],
+    queryFn: getCurrentUser(),
+  });
+
+  const role = userData?.roles || "";
+  console.log("mon role", role);
   const { data: operations } = useQuery({
     queryKey: ['operations'],
     queryFn: getOperations(),
@@ -64,6 +73,8 @@ const Page = () => {
         <nav className="space-y-2 flex-grow">
           <div className="text-sm font-semibold text-gray-500 mb-4">NAVIGATION</div>
           
+          {role === "USER_ROLES" && (
+        <>
           <Link href="/operation" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-md">
             <FaPlus className="mr-2" />
             Ajouter un Stock
@@ -73,13 +84,17 @@ const Page = () => {
             Mes Opérations
           </Link>
           <Link href="/stock_max" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-md">
-            <FaClipboardList  className="mr-2" />
+            <FaClipboardList className="mr-2" />
             Stock à atteindre
           </Link>
-          <Link href="/statistiques" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-md">
-            <FaChartLine className="mr-2" />
-            Tableau de bord
-          </Link>
+        </>
+      )}
+      {role === "ADMIN_ROLES" && (
+        <Link href="/statistiques" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-md">
+          <FaChartLine className="mr-2" />
+          Tableau de bord
+        </Link>
+      )}
           
           <Link href="/user" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-md">
             <FaUser className="mr-2" />

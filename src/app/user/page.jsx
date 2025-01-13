@@ -21,7 +21,9 @@ function ProfilePage() {
     queryKey: ['user'],
     queryFn: getCurrentUser(),
   });
- console.log(userData);
+  
+ 
+   const role = userData?.roles || "";
   const handleSubmitPasswordChange = async (e) => {
     e.preventDefault();
     if (oldPassword && newPassword && confirmNewPassword && newPassword === confirmNewPassword) {
@@ -71,6 +73,8 @@ function ProfilePage() {
             <FaHome className="mr-2" />
             Accueil
           </Link>
+          {role === "USER_ROLES" && (
+        <>
           <Link href="/operation" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-md">
             <FaPlus className="mr-2" />
             Ajouter un Stock
@@ -79,15 +83,18 @@ function ProfilePage() {
             <FaBoxOpen className="mr-2" />
             Mes Opérations
           </Link>
-          
           <Link href="/stock_max" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-md">
-            <FaClipboardList  className="mr-2" />
+            <FaClipboardList className="mr-2" />
             Stock à atteindre
           </Link>
-          <Link href="/statistiques" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-md">
-            <FaChartLine className="mr-2" />
-            Tableau de bord
-          </Link>
+        </>
+      )}
+      {role === "ADMIN_ROLES" && (
+        <Link href="/statistiques" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-md">
+          <FaChartLine className="mr-2" />
+          Tableau de bord
+        </Link>
+      )}
           <Link href="/user" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-md">
             <FaUser className="mr-2" />
             Mon Profil
